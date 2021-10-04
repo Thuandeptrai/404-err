@@ -5,10 +5,12 @@ import { Formik, Field, Form } from 'formik';
 import { useFirebaseContext } from '../context/firebase';
 import * as ROUTES from '../constant/routes'
 import { doesUserExist, createFirestoreUser } from '../service/firebase';
+import ReCAPTCHA from "react-google-recaptcha";
 import Background from './img/RegisterBackground.png'
 import register from './img/registered.svg'
 
 function Register() {
+  const [enabledButton,setEnableButton]= useState(false);
   const [serverError, setServerError] = useState('');
     const history = useHistory()
     const {firebase} = useFirebaseContext()
@@ -71,6 +73,10 @@ function Register() {
           setServerError('Username already exists, please try another!');
         }
       };
+      function onChange() {
+        setEnableButton(true);
+   
+       }
     return (<>
         <div className="container flex mx-auto max-w-screen-md items-center justify-center h-screen">
         <div className="md:flex md:w-3/6 hidden">
@@ -100,6 +106,7 @@ function Register() {
               } finally {
                 setSubmitting(false);
                 resetForm();
+                setEnableButton(false);
               }
             }}
           >
@@ -156,13 +163,18 @@ function Register() {
                     {errors.password}
                   </p>
                 )}
+                  <ReCAPTCHA
+                  sitekey="6Lf7PkgcAAAAACdG0qV65G_O28FjXyQu95pNzPMt"
+                  onChange = {()=>{onChange()}}
+                   />
                 <button
                   type="submit"
                   aria-label="Login to your account"
                   
-                  disabled={!isValid}
-                  className={`bg-blue-medium text-white w-full rounded h-8 mt-1 font-semibold ${
-                    (!isValid || isSubmitting) &&
+                  disabled={!enabledButton}
+                  
+                  className={`bg-blue-medium text-white w-full rounded h-8 mt-1 font-semibold but ${
+                    (!enabledButton||!isValid) &&
                     'opacity-50 cursor-not-allowed'
                   }`}
                 >
