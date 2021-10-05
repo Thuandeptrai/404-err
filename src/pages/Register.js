@@ -17,7 +17,7 @@ function Register() {
     const handleFirebaseRegister = async (formValues) => {
         const { email, password, username, fullName } = formValues;
         const usernameAlreadyExists = await doesUserExist(username);
-    
+        
         if (!usernameAlreadyExists) {
           firebase
             .auth()
@@ -75,8 +75,11 @@ function Register() {
       };
       function onChange() {
         setEnableButton(true);
-   
        }
+       function resetrecaptcha()
+    {
+      window.grecaptcha.reset();
+    }
     return (<>
         <div className="container flex mx-auto max-w-screen-md items-center justify-center h-screen">
         <div className="md:flex md:w-3/6 hidden">
@@ -107,6 +110,7 @@ function Register() {
                 setSubmitting(false);
                 resetForm();
                 setEnableButton(false);
+                resetrecaptcha();
               }
             }}
           >

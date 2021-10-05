@@ -25,6 +25,11 @@ function Login() {
      setEnableButton(true);
 
     }
+    function resetrecaptcha()
+    {
+      window.grecaptcha.reset();
+    }
+    
     const handleFirebaseLogin = async (formValues) => {
         const { email, password } = formValues;
     
@@ -39,6 +44,7 @@ function Login() {
           
         }
       };
+      
     return (<>
         <div className="container flex mx-auto max-w-screen-md items-center justify-center h-screen">
         <div style={{boxSizing:'border-box',alignItems:'center'}}  className="md:flex md:w-3/6 hidden">
@@ -66,6 +72,7 @@ function Login() {
                 setServerError('Wrong password or username')
                 resetForm();
                 setEnableButton(false);
+                resetrecaptcha();
               }
             }}
           >
@@ -107,6 +114,7 @@ function Login() {
                 )}
                 
                 <ReCAPTCHA
+                  
                   sitekey="6Lf7PkgcAAAAACdG0qV65G_O28FjXyQu95pNzPMt"
                   onChange = {()=>{onChange()}}
                    />
