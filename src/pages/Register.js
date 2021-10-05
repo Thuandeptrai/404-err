@@ -174,9 +174,7 @@ function Register() {
                 <button
                   type="submit"
                   aria-label="Login to your account"
-                  
                   disabled={!enabledButton}
-                  
                   className={`bg-blue-medium text-white w-full rounded h-8 mt-1 font-semibold but ${
                     (!enabledButton||!isValid) &&
                     'opacity-50 cursor-not-allowed'
