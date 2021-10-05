@@ -9,14 +9,16 @@ import ReCAPTCHA from "react-google-recaptcha";
 import Background from './img/RegisterBackground.png'
 import register from './img/registered.svg'
 
+
 function Register() {
   const [enabledButton,setEnableButton]= useState(false);
   const [serverError, setServerError] = useState('');
     const history = useHistory()
     const {firebase} = useFirebaseContext()
     const handleFirebaseRegister = async (formValues) => {
-        const { email, password, username, fullName } = formValues;
+        const { email, password,confirmPassword, username, fullName } = formValues;
         const usernameAlreadyExists = await doesUserExist(username);
+        
         
         if (!usernameAlreadyExists) {
           firebase
@@ -77,9 +79,9 @@ function Register() {
         setEnableButton(true);
        }
        function resetrecaptcha()
-    {
+      {
       window.grecaptcha.reset();
-    }
+      }
     return (<>
         <div className="container flex mx-auto max-w-screen-md items-center justify-center h-screen">
         <div className="md:flex md:w-3/6 hidden">
@@ -101,6 +103,7 @@ function Register() {
               fullName: '',
               email: '',
               password: '',
+              confirmPassword:''
             }}
             validationSchema={UserSignUpSchema}
             onSubmit={async (values, { resetForm, setSubmitting }) => {
@@ -165,6 +168,18 @@ function Register() {
                 {errors.password && touched.password && (
                   <p className="mb-3 pl-1 text-xs text-red-primary">
                     {errors.password}
+                  </p>
+                )}
+                <Field
+                  type="password"
+                  name="confirmPassword"
+                  aria-label="Enter your password"
+                  placeholder="confirmPassword"
+                  className="text-sm focus:ring-gray-700 focus:border-gray-400 text-gray-base w-full mr-3 py-5 px-4 h-2 border border-gray-primary rounded mb-2"
+                />
+                {errors.confirmPassword && touched.confirmPassword && (
+                  <p className="mb-3 pl-1 text-xs text-red-primary">
+                    {errors.confirmPassword}
                   </p>
                 )}
                   <ReCAPTCHA

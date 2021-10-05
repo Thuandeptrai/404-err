@@ -53,6 +53,9 @@ export const UserSignUpSchema = Yup.object().shape({
     .min(6, 'Password must be at least 6 characters long!')
     .max(24, 'Password must be 24 characters at most!')
     .required('Password is a required field'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Passwords do not match!')
+    .required('Confirm password is a required field!'), 
 });
 
 export const UserLoginSchema = Yup.object().shape({
@@ -63,6 +66,7 @@ export const UserLoginSchema = Yup.object().shape({
     .min(6, 'Password must be atleast 6 characters long!')
     .max(24, 'Password must be 24 characters at most!')
     .required('Password is a required field'),
+
 });
 
 export const ResetPasswordSchema = Yup.object().shape({
